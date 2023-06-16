@@ -23,7 +23,7 @@ function addNewSmartPhone() {
 
 function getSmartphone(smartphone) {
     return `<tr><td >${smartphone.producer}</td><td >${smartphone.model}</td><td >${smartphone.price}</td>` +
-        `<td><a class="deleteSmartphone" href="${smartphone.id}">Delete</a></td></tr>`;
+        `<td><button class="deleteSmartphone" onclick="deleteRecord(${smartphone.id})">Delete</button></td></tr>`;
 }
 
 function successHandler() {
@@ -45,20 +45,17 @@ function successHandler() {
     });
 }
 
-$(document).ready(function () {
-    $('.deleteSmartphone').click(function (event) {
-        let a = $(this);
-        let smartphoneId = a.attr("href");
-        $.ajax({
-            type: "DELETE",
-            url: `http://localhost:8080/smartphones/${smartphoneId}`,
-            success: function (data) {
-                a.parent().parent().remove();
-            }
-
-        });
-        event.preventDefault();
-    });
-})
+function deleteRecord(id) {
+    $.ajax({
+        url: `http://localhost:8080/smartphones/${id}` ,
+        type: "DELETE",
+        success: function(response) {
+            alert("Da xoa xong");
+        },
+       error: function(xhr, status, error) {
+            alert("Error deleting record: " + error);
+        }
+    })
+}
 
 
